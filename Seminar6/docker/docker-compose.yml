@@ -1,0 +1,24 @@
+version: '3'
+
+services:
+  mysql_db:
+    image: mysql:8.0.31
+    container_name: mysql_db
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      - MYSQL_DATABASE=test
+      - log-bin-trust-function-creators=1
+    volumes:
+      - dbdata:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    command: '--log-bin-trust-function-creators=1'
+    networks:
+      - app-network
+volumes:
+  dbdata:
+
+networks:
+  app-network:
+    driver: bridge
